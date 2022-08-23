@@ -1,25 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Task} from "./components/tasks/Task";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {RequireAuthUser} from "./components/RequireAuth/RequireAuthUser";
+import {StudentCvView} from "./components/StudentCvView/StudentCvView";
+import {MainLayout} from "./components/MainLayout/MainLayout";
+import {LoginView} from "./components/LoginView/LoginView";
+import {RegisterView} from "./components/RegisterView/RegisterView";
+import {Calc} from "./components/Calc/Calc";
 
 function App() {
+  console.log('work')
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+    <Routes>
+      <Route path="/" element={<MainLayout/>}>
+        <Route path="login" element={<LoginView/>}/>
+        <Route
+          path="register/:id/:verificationToken"
+          element={<RegisterView/>}
+        />
+
+        {/*<Route path="send-email" element={<EmailPasswordRecoveryView />} />*/}
+
+        {/*user auth require*/}
+        <Route path="user" element={<RequireAuthUser/>}>
+          <Route index element={<StudentCvView/>}/>
+          <Route path="task" element={<Task/>}/>
+        </Route>
+        {/*Calc require*/}
+        <Route path="calc" element={<Calc/>}/>
+      </Route>
+    </Routes>
+
   );
 }
 
